@@ -132,3 +132,36 @@ class Chromatogram(list):
         ans = '\n'.join(self)
 
         return ans
+
+
+class HTML(object):
+    def __init__(self):
+        super().__init__()
+
+        self.body = []
+
+    def add_section(self, drug, svg):
+        div = ['<h1>%s</h1>' % [drug],
+               '<div class="myDiv">',
+               svg,
+               '</div>']
+
+        self.body.append('\n'.join(div))
+
+    def save(self):
+        htmlist = ['<!DOCTYPE html>',
+                   '<html>',
+                   '<head>',
+                   '<style>',
+                   '.myDiv {border: 1px outset red; background-color: lightblue; text-align: center;}',
+                   '</style>',
+                   '</head>',
+                   '<body>']
+
+        for item in self.body:
+            htmlist.append(item)
+
+        htmlist.append('</body>')
+        htmlist.append('</html>')
+
+        return '\n'.join(htmlist)
