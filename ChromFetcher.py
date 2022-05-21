@@ -229,7 +229,7 @@ class Chroms(object):
     def get_body(self, xmin, ymin, xmax, ymax, divx=1, divy=1):
         # Transform Data
         dx = 1000
-        dy = 500
+        dy = 250
         xmin = xmin / divx
         ymin = ymin / divy
         xmax = xmax / divx
@@ -244,12 +244,22 @@ class Chroms(object):
         return body
 
 
+def main():
+    width = 250
+    file_info = search_dir('C:\\PinPoint\\MassHunter\\Data\\Test Injections\\Test Injections\\test-A.d')
+
+    file = sb.HTML()
+    for mrm in file_info:
+        chrom = Chroms(mrm)
+        body = chrom.get_body(chrom.xmin, chrom.ymin, chrom.xmax, chrom.ymax * 1.1)
+        graph = sb.Chromatogram('test', 1000, width)
+        graph.add_cubic(0, width, body, graph.col3)
+        file.add_section(mrm['drug'], graph.save())
+        del chrom
+
+    with open('test.html', 'w') as htmlfile:
+        htmlfile.write(file.save())
+
+
 if __name__ == '__main__':
-    qqq = search_dir('C:\\PinPoint\\MassHunter\\Data\\Test Injections\\Test Injections\\test-A.d')
-    f = sb.Chromatogram('test', 1000, 500)
-    ff = Chroms(qqq[0])
-    f.add_cubic(0, 500, ff.get_body(ff.xmin, ff.ymin, ff.xmax, ff.ymax*1.1), f.col3)
-    svg=f.save()
-    with open('test.svg','w') as file:
-        file.write(svg)
-    q = 1
+    main()

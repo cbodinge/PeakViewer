@@ -13,7 +13,7 @@ def num2per(num):
 class Chromatogram(list):
     def __init__(self, name, w, h):
         super().__init__()
-        self.append('<svg width="%s" height="%s" xmlns="http://www.w3.org/2000/svg">   ' % (str(w), str(h)))
+        self.append('<svg viewBox="0 0 1000 250" xmlns="http://www.w3.org/2000/svg">')
         self.keys = []
         self.col1 = {'fill': (0, 0, 0),
                      'stroke': (0, 0, 0),
@@ -46,11 +46,6 @@ class Chromatogram(list):
                      'stroke-dash-array': 10}
 
         self.margin = 3
-
-        # Add Graph Title
-        x = num2per(100 - self.margin)
-        y = num2per(1.5 * self.margin)
-        self.add_text(name, x, y, 'end')
 
     def add_cubic(self, x1, y1, body, settings=None):
         if settings is None:
@@ -125,8 +120,8 @@ class Chromatogram(list):
     def save(self):
         row = psvg.Rect(0, 0, '100%', '100%')
         row.set_fill_opacity(0)
-        row.set_stroke((10, 10, 15))
-        row.set_stroke_width(5)
+        # row.set_stroke((10, 10, 15))
+        # row.set_stroke_width(5)
         self.append(row.construct())
         self.append('</svg>')
         ans = '\n'.join(self)
@@ -141,8 +136,8 @@ class HTML(object):
         self.body = []
 
     def add_section(self, drug, svg):
-        div = ['<h1>%s</h1>' % [drug],
-               '<div class="myDiv">',
+        div = ['<div class="myDiv">',
+               '<h2>%s</h2>' % (drug,),
                svg,
                '</div>']
 
@@ -153,7 +148,8 @@ class HTML(object):
                    '<html>',
                    '<head>',
                    '<style>',
-                   '.myDiv {border: 1px outset red; background-color: lightblue; text-align: center;}',
+                   '.myDiv {border: 0px outset red; background-color: lightblue; text-align: center;}',
+                   'h2 {text-align: left;}',
                    '</style>',
                    '</head>',
                    '<body>']
