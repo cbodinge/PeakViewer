@@ -246,7 +246,7 @@ class Chroms(object):
 
 def main():
     width = 250
-    file_info = search_dir('C:\\PinPoint\\MassHunter\\Data\\Test Injections\\Test Injections\\test-A.d')
+    file_info = search_dir('C:\\PinPoint\\MassHunter\\Data\\PAR\\Test-B3.d')
 
     file = sb.HTML()
     for mrm in file_info:
